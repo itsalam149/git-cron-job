@@ -31,9 +31,9 @@ jobs:
 
       - name: Configure Git identity
         run: |
-          # Use custom repository variables if set, otherwise fallback to GitHub actor noreply email
-          USER_NAME="${{ vars.GIT_AUTHOR_NAME || github.actor }}"
-          USER_EMAIL="${{ vars.GIT_AUTHOR_EMAIL || format('{0}@users.noreply.github.com', github.actor) }}"
+          # Use custom repository variables if set, otherwise default to your verified GitHub email
+          USER_NAME="${{ vars.GIT_AUTHOR_NAME || 'itsalam149' }}"
+          USER_EMAIL="${{ vars.GIT_AUTHOR_EMAIL || 'alam014916@gmail.com' }}"
           
           echo "Configuring Git author as: $USER_NAME <$USER_EMAIL>"
           git config --global user.name "$USER_NAME"
