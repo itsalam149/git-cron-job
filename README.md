@@ -1,6 +1,6 @@
 # GitHub Contribution & Counter Automation
 
-[![Scheduled Counter Update](https://github.com/YOUR_GITHUB_USERNAME/YOUR_REPOSITORY_NAME/actions/workflows/update.yml/badge.svg)](https://github.com/YOUR_GITHUB_USERNAME/YOUR_REPOSITORY_NAME/actions/workflows/update.yml)
+[![Scheduled Counter Update](https://github.com/itsalam149/git-cron-job/actions/workflows/update.yml/badge.svg)](https://github.com/itsalam149/git-cron-job/actions/workflows/update.yml)
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
