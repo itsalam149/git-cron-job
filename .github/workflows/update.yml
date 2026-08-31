@@ -1,0 +1,55 @@
+name: Scheduled Counter Update
+
+on:
+  schedule:
+    # Runs everyday at 06:00 UTC (11:30 AM IST)
+    # Cron format: minute hour day-of-month month day-of-week (in UTC)
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+    # Allows manual trigger from the GitHub Actions tab
+
+permissions:
+  contents: write
+
+jobs:
+  update-counter:
+    name: Run Python Script and Push Commit
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Execute update script
+        run: |
+          python update.py
+
+      - name: Configure Git identity
+        run: |
+          # Use custom repository variables if set, otherwise fallback to GitHub actor noreply email
+          USER_NAME="${{ vars.GIT_AUTHOR_NAME || github.actor }}"
+          USER_EMAIL="${{ vars.GIT_AUTHOR_EMAIL || format('{0}@users.noreply.github.com', github.actor) }}"
+          
+          echo "Configuring Git author as: $USER_NAME <$USER_EMAIL>"
+          git config --global user.name "$USER_NAME"
+          git config --global user.email "$USER_EMAIL"
+
+      - name: Commit and push changes
+        run: |
+          git add counter.txt
+          
+          # Check if counter.txt was modified
+          if git diff --staged --quiet; then
+            echo "No changes detected. Skipping commit."
+          else
+            # Extract count value for descriptive commit message
+            CURRENT_COUNT=$(grep -oE '[0-9]+' counter.txt | head -n 1)
+            git commit -m "chore(automation): increment counter to ${CURRENT_COUNT:-updated} [skip ci]"
+            git push
+            echo "Successfully committed and pushed updated counter."
+          fi
